@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: docagent-postgres
+    environment:
+      POSTGRES_USER: docagent
+      POSTGRES_PASSWORD: docagent
+      POSTGRES_DB: docagent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docagent"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - docagent-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: docagent-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://docagent:docagent@postgres:5432/docagent
+    volumes:
+      - ./backend:/app/backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - docagent-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: docagent-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    networks:
+      - docagent-network
+
+volumes:
+  postgres_data:
+
+networks:
+  docagent-network:
+    driver: bridge

@@ -1,0 +1,92 @@
+name: doc-agent
+services:
+  backend:
+    build:
+      context: D:\project\doc-agent\backend
+      dockerfile: Dockerfile
+    container_name: docagent-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      BACKEND_CORS_ORIGINS: http://localhost:3000
+      DATABASE_URL: postgresql+asyncpg://docagent:docagent@postgres:5432/docagent
+      LITELLM_MOCK: "false"
+      LLM_API_BASE: https://api.openai.com/v1
+      LLM_API_KEY: your-api-key-here
+      LLM_DEFAULT_MODEL: gpt-4o-mini
+      LLM_EMBED_MODEL: text-embedding-3-small
+      LLM_REVIEW_MODEL: gpt-4o
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      SEED_DEMO_DATA: "true"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - curl -f http://localhost:8000/health || exit 1
+      timeout: 3s
+      interval: 10s
+      retries: 5
+    networks:
+      docagent-network: null
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8000"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: D:\project\doc-agent\backend
+        target: /app/backend
+        bind: {}
+  frontend:
+    build:
+      context: D:\project\doc-agent\frontend
+      dockerfile: Dockerfile
+    container_name: docagent-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+        required: true
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    networks:
+      docagent-network: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+  postgres:
+    container_name: docagent-postgres
+    environment:
+      POSTGRES_DB: docagent
+      POSTGRES_PASSWORD: docagent
+      POSTGRES_USER: docagent
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U docagent
+      timeout: 3s
+      interval: 5s
+      retries: 5
+    image: pgvector/pgvector:pg16
+    networks:
+      docagent-network: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  docagent-network:
+    name: doc-agent_docagent-network
+    driver: bridge
+volumes:
+  postgres_data:
+    name: doc-agent_postgres_data
