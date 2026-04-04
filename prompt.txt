@@ -1,0 +1,326 @@
+你是一个资深的软件架构师、全栈工程师、AI Agent 系统工程师。请为我开发一个“文档智能生产与审核平台”。
+
+【一、项目目标】
+
+我要的不是“专门写竞标材料的单一 agent”，而是一个可扩展的“通用文档处理 Agent 平台”，支持文档的：
+1. 任务理解
+2. 材料解析
+3. 知识检索
+4. 大纲规划
+5. 分章节生成
+6. 多维审核
+7. 修订闭环
+8. 格式导出
+9. 版本管理
+10. 人工批注与回修
+
+系统要支持：
+- 写作
+- 审核
+- 修订
+- 定稿交付
+
+并且要遵循如下核心原则：
+- 不要做“竞标 agent / 专利 agent / 论文 agent”这种 agent 动物园
+- 只保留一个通用的 Document Orchestrator（文档主控 Agent）
+- 各类业务能力通过 Skill 扩展
+- 审核能力必须是系统核心能力，而不是附属功能
+- 系统必须具备状态管理、证据追踪、版本管理、规则审查能力
+- 先做一个真正可运行的 MVP，再逐步扩展，不要一开始过度工程化
+
+【二、系统定位】
+
+这是一个“文档智能生产与审核操作系统”，而不是简单聊天机器人。
+
+主控 Agent 负责：
+- 理解任务目标
+- 拆解任务阶段
+- 维护任务状态
+- 选择和调用 Skill
+- 触发审核流程
+- 决定是否修订、回退、进入人工确认
+- 管理最终导出
+
+Skill 负责：
+- 文档解析
+- 知识检索
+- 需求抽取
+- 大纲生成
+- 章节生成
+- 改写润色
+- 对比分析
+- 审核检查
+- 格式装配
+- 导出 Word/PDF/Markdown
+
+【三、必须实现的总体架构】
+
+请按照如下逻辑设计并实现系统：
+
+1. 统一交互层
+- Web 前端
+- 支持任务创建、文档上传、模板选择、知识库选择、审核结果查看、批注修订、导出下载
+
+2. Agent 编排与状态层
+- Document Orchestrator（主控 Agent）
+- Planner（任务规划器）
+- Skill Router（Skill 路由器）
+- State Manager（任务状态/章节状态/审核状态/版本状态）
+- Context Manager（上下文管理）
+- Human-in-the-loop Controller（人工确认/审批/回退）
+
+3. Skill 能力层
+至少包含以下 Skills：
+- Document Parse Skill
+- Retrieval Skill
+- Requirement Extraction Skill
+- Outline Planning Skill
+- Section Writing Skill
+- Rewrite & Polish Skill
+- Comparison/Diff Skill
+- Review Skill
+- Export Skill
+
+4. 审核层
+审核层不要只做一个总审核器，而是拆成多个审核模块：
+- Structure Reviewer：检查结构完整性、目录合理性、章节缺失
+- Compliance Reviewer：检查格式、硬约束、红线、规则
+- Technical Reviewer：检查技术逻辑、论证闭环、内容充分性
+- Evidence Reviewer：检查关键结论是否有证据支撑
+- Consistency Reviewer：检查术语、数字、名称、单位、时间一致性
+- Style Reviewer：检查正式程度、语气、文风、甲方视角
+- Coverage Reviewer：检查评分项/需求项/响应项覆盖率
+- Risk Reviewer：检查敏感词、夸大承诺、保密风险、违规表述
+
+5. 数据与知识底座
+至少设计以下数据对象或库：
+- Template Library
+- Case Library
+- Knowledge Base
+- Rule Library
+- Terminology Library
+- Evidence Map
+- Version Store
+- Audit Log
+
+6. 交付闭环层
+- 导出管理
+- 审核问题清单
+- 批注修订
+- 质量看板
+- 复盘沉淀
+
+【四、核心业务流程】
+
+请实现以下主流程：
+
+主流程：
+任务创建
+→ 上传资料
+→ 解析文档
+→ 抽取需求/约束/评分点
+→ 生成响应矩阵
+→ 规划文档目录
+→ 分章节生成初稿
+→ 多维审核
+→ 生成问题清单
+→ 自动修订/人工修订
+→ 再审核
+→ 定稿导出
+→ 版本归档
+→ 审计留痕
+
+请特别注意：
+- 审核必须支持“问题定位到章节/段落”
+- 审核结果必须输出“问题级别、问题类型、修改建议、是否必须人工确认”
+- 每个章节要有独立状态
+- 每次修订都要产生新版本
+- 关键结论最好绑定证据来源
+
+【五、文档类型扩展原则】
+
+系统不要把“竞标材料、专利、项目建议书、论文、PPT”实现成不同 Agent。
+
+正确方式是：
+- 一个通用 Document Orchestrator
+- 一套通用 Skills
+- 不同业务通过配置驱动：
+  - 模板
+  - 章节 schema
+  - 规则 checklist
+  - 审核规则
+  - 风格指南
+  - 检索范围
+  - 输出格式
+
+也就是说，系统架构上要支持“同一套主干，不同配置适配不同文档类型”。
+
+请为此设计清晰的数据结构与配置机制。
+
+【六、建议技术路线】
+
+如果当前仓库没有既定技术栈，请优先采用成熟、可快速落地的方案，并尽量保持前后端清晰解耦。
+
+建议默认技术栈（如果当前项目已有栈，则优先适配现有栈）：
+- 前端：Next.js + TypeScript + Tailwind
+- 后端：FastAPI 或 Node.js（优先选择更适合 Agent orchestration 的方案）
+- 数据库：PostgreSQL
+- 向量检索：pgvector 或其他成熟方案
+- 对象存储：本地文件系统抽象层，后续可替换 MinIO
+- 任务队列：可选，MVP 阶段可先同步实现，接口上预留异步扩展能力
+- 文档解析：优先支持 markdown / docx / pdf 的基础解析
+- 导出：至少支持 markdown、docx；pdf 
+
+如果你认为更合适，也可以重新组织技术栈，但必须说明原因。
+
+【七、前端页面要求】
+
+请至少实现以下页面或核心界面：
+
+1. 任务首页
+- 新建任务
+- 查看任务列表
+- 查看任务状态
+
+2. 任务工作台
+- 左侧：任务信息、资料列表、模板选择、知识库选择
+- 中间：文档结构树、当前章节内容编辑区
+- 右侧：审核问题面板、批注面板、证据面板
+
+3. 审核看板
+- 展示各审核器结果
+- 展示问题数量、严重程度、覆盖率
+- 支持点击跳转到对应章节/段落
+
+4. 版本对比页
+- 比较两个版本的章节或全文差异
+- 展示修改原因和修改来源
+
+5. 导出页
+- 选择导出格式
+- 查看最终审核通过状态
+- 下载导出文件
+
+UI 风格要求：
+- 简洁、专业、偏企业级
+- 不要花哨动画
+- 以信息密度和可操作性优先
+- 优先实现可用性，不要过度美化
+
+【八、后端能力要求】
+
+请设计并实现清晰的服务边界，至少包含：
+
+1. Task Service
+- 创建任务
+- 查询任务
+- 更新任务状态
+- 任务配置管理
+
+2. Document Service
+- 文档上传
+- 文档解析
+- 文档结构抽取
+- 章节读写
+- 版本保存
+
+3. Skill Service
+- Skill 注册
+- Skill 调用
+- Skill 执行日志
+- Skill 扩展机制
+
+4. Review Service
+- 运行指定审核器
+- 汇总审核结果
+- 问题分级
+- 问题定位
+- 审核通过/不通过判定
+
+5. Knowledge Service
+- 模板管理
+- 知识库检索
+- 案例库检索
+- 术语库/规则库管理
+
+6. Export Service
+- 组装文档
+- 导出 markdown/docx
+- 导出前完整性检查
+
+7. Audit/Trace Service
+- 记录任务执行链路
+- 记录版本变更
+- 记录审核结果
+- 记录人工操作
+
+【九、数据模型要求】
+
+请认真设计核心数据模型，至少包括：
+
+- Task
+- TaskConfig
+- SourceDocument
+- ParsedDocument
+- Section
+- DraftVersion
+- ReviewResult
+- ReviewIssue
+- EvidenceReference
+- SkillExecution
+- Template
+- Rule
+- TerminologyEntry
+- KnowledgeChunk
+- UserComment
+- ExportArtifact
+- AuditEvent
+
+要求：
+- 字段命名清晰
+- 状态枚举设计合理
+- 留有后续扩展空间
+- 版本关系明确
+- 审核问题能定位到 section / paragraph / span 级别（至少 section + excerpt）
+
+【十、Agent 与 Skill 的实现要求】
+
+请不要把 Agent 和 Skill 混在一起。
+
+必须满足：
+- Agent 负责流程决策和状态推进
+- Skill 负责具体能力执行
+- Skill 设计成可注册、可替换、可扩展模块
+- 审核器也视为一种 Skill 或独立可插拔模块
+- 后续新增“竞标写作 Skill 包”“专利写作 Skill 包”“项目建议书 Skill 包”时，不需要修改主 Agent 核心逻辑
+
+请实现一个合理的 Skill 接口，例如：
+- name
+- input schema
+- output schema
+- prerequisites
+- executor
+- validator
+- retry policy
+
+【十一、工程要求】
+
+请确保：
+- 代码结构清晰
+- 模块边界明确
+- 命名规范
+- 便于后续扩展
+- 日志可追踪
+- 错误处理清楚
+- 有基本类型约束
+- 尽量附带基础测试或最小验证样例
+
+【十二、特别约束】
+
+1. 不要把所有逻辑都写死在 prompt 里，要沉淀到代码结构、配置、规则库、模板机制中
+2. 不要把审核做成一句大模型点评，要输出结构化问题清单
+3. 不要只做聊天界面，要做任务工作台
+4. 不要忽略状态管理和版本管理
+5. 不要忽略人工介入点
+6. 不要为了追求“智能”牺牲可维护性
+7. 不要生成一堆占位文件后就结束，要实现最小闭环功能

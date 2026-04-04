@@ -1,0 +1,320 @@
+{
+  "active_plan": "D:\\project\\doc-agent\\.sisyphus\\plans\\doc-agent-platform.md",
+  "started_at": "2026-03-30T16:43:05.438Z",
+  "session_ids": [
+    "ses_2c11f0345ffefjegZjN4EmlxFf",
+    "ses_2c0596af1ffeGDxtuMNz9fee7p",
+    "ses_2c05000d4ffelQWMzELwfsf3zg",
+    "ses_2c04f2ea9ffeTsdyj0zd4hEEAn",
+    "ses_2c03198a6ffeDFByfE0Uv0OdFo",
+    "ses_2c030bbfcffejKZWWLfOKep3xI",
+    "ses_2c02b7d42ffee9UVcjL5F0I1xn",
+    "ses_2c02c2786ffeRvWQ3Col7tk04p",
+    "ses_2c02aa66bffe19Cw3QnNVD1MBg",
+    "ses_2c029625effeUj3WOqrBZqxok2",
+    "ses_2c01d63d5ffeWOApKr4WMmwc9w",
+    "ses_2c0140846ffeDWYx82rNwDS3zB",
+    "ses_2bfd38667ffeB0D35iw7emU0jG",
+    "ses_2bfca93adffe02L9blT9nB0yaC",
+    "ses_2bfc284c8ffeT2gbnq0pgbRUW1",
+    "ses_2bfbc2b49ffevCN805rrsIk0Mc",
+    "ses_2bfb0652bffeNW4gPvSX4Q6Pra",
+    "ses_2bfa66169ffeNNn3V50uNK4ZYY",
+    "ses_2bf75f9fbffeYhHzj5mEKGl9IC",
+    "ses_2bbc99e05ffedDb3zRsQj4Lcso",
+    "ses_2bbc54826ffe609ybzjZlUMdQy",
+    "ses_2bbb8fdf9ffeY7XrhBnuwj5zXM",
+    "ses_2bbb222b5ffeLIyYnZb7cgHA30",
+    "ses_2bba9cdfcffexret7zpzocv2s9",
+    "ses_2bba22a58ffeq3p8GRnT0eJUV7",
+    "ses_2bba19a36ffeuDEjnvwX3ygemh",
+    "ses_2bb8d622affej9GniMVl3z0nKP",
+    "ses_2bb8c7519ffe4J60gaaG3O68WJ",
+    "ses_2bb82505bfferzqRbRKuCPQJjt",
+    "ses_2bb7f20c3ffe27yjVWQCOOzXLy",
+    "ses_2bb771a56ffeila47WTImlCM1B",
+    "ses_2bb778b26ffeeVRMSqTE6o6C0o",
+    "ses_2bb6939dfffeq45w7xeCArQvaj",
+    "ses_2bb61120fffeF0Jwh0FdSgzYGJ",
+    "ses_2bb3bc517ffegLueQY9hXiRDbd",
+    "ses_2bb29fafcffesS0o25zx1g6J8m",
+    "ses_2bb299424ffeEBF9dTBRV3G5CF",
+    "ses_2bb1e3db8ffe9FjsZxEMX5Ef86",
+    "ses_2bb1ee4d2ffeUpWTqTef08y93V",
+    "ses_2bb1e9507ffePg1vyqzzHC4Qlk",
+    "ses_2bb11d9b5ffepkXLkLmK1FJWxc",
+    "ses_2bb123b55ffevpwDLd59JdEvHr",
+    "ses_2bacd7bd0ffewQ77BBBpims1LN",
+    "ses_2ba8257aeffenqyznya4XOuzgg",
+    "ses_2ba7b45fdffe4610XDOA91eSvT",
+    "ses_2ba7160a7ffeieF7Ov5IfSpY6W",
+    "ses_2ba71da61ffep3EXqj1X6JDMKT",
+    "ses_2ba727341ffe3RbNwPsOaHtbv0",
+    "ses_2ba70e126ffewbnEDzw0VsS8lO"
+  ],
+  "plan_name": "doc-agent-platform",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Monorepo Scaffold + Docker Compose",
+      "session_id": "ses_2c0596af1ffeGDxtuMNz9fee7p",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T16:56:56.935Z"
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Frontend Project Scaffold (Next.js + Dependencies)",
+      "session_id": "ses_2c030bbfcffejKZWWLfOKep3xI",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T17:37:09.033Z"
+    },
+    "todo:5": {
+      "task_key": "todo:5",
+      "task_label": "5",
+      "task_title": "LLM Abstraction Layer (litellm Adapter)",
+      "session_id": "ses_2c02c2786ffeRvWQ3Col7tk04p",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T17:43:15.287Z"
+    },
+    "todo:9": {
+      "task_key": "todo:9",
+      "task_label": "9",
+      "task_title": "LangGraph StateGraph Skeleton + Checkpoint Setup",
+      "session_id": "ses_2c01d63d5ffeWOApKr4WMmwc9w",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-30T18:04:06.876Z"
+    },
+    "todo:10": {
+      "task_key": "todo:10",
+      "task_label": "10",
+      "task_title": "Task Service (CRUD API)",
+      "session_id": "ses_2c0140846ffeDWYx82rNwDS3zB",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T18:14:44.798Z"
+    },
+    "todo:12": {
+      "task_key": "todo:12",
+      "task_label": "12",
+      "task_title": "Document Parse Skill (DOCX + PDF + Markdown)",
+      "session_id": "ses_2bfeb2a24ffeeEvEV4XhCp2NJI",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T19:14:22.773Z"
+    },
+    "todo:13": {
+      "task_key": "todo:13",
+      "task_label": "13",
+      "task_title": "Requirement Extraction Skill",
+      "session_id": "ses_2bfd38667ffeB0D35iw7emU0jG",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T19:24:35.208Z"
+    },
+    "todo:14": {
+      "task_key": "todo:14",
+      "task_label": "14",
+      "task_title": "Outline Planning Skill",
+      "session_id": "ses_2bfca93adffe02L9blT9nB0yaC",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T19:31:11.322Z"
+    },
+    "todo:15": {
+      "task_key": "todo:15",
+      "task_label": "15",
+      "task_title": "Section Writing Skill",
+      "session_id": "ses_2bfc284c8ffeT2gbnq0pgbRUW1",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-30T19:38:34.940Z"
+    },
+    "todo:16": {
+      "task_key": "todo:16",
+      "task_label": "16",
+      "task_title": "Document Service (Upload, Parse, Sections CRUD)",
+      "session_id": "ses_2bfbc2b49ffevCN805rrsIk0Mc",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T19:52:11.001Z"
+    },
+    "todo:17": {
+      "task_key": "todo:17",
+      "task_label": "17",
+      "task_title": "LangGraph Generation Pipeline (Parse → Extract → Outline → Write)",
+      "session_id": "ses_2bfb0652bffeNW4gPvSX4Q6Pra",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-30T20:01:09.898Z"
+    },
+    "todo:18": {
+      "task_key": "todo:18",
+      "task_label": "18",
+      "task_title": "Human-in-the-Loop: Outline Approval Interrupt",
+      "session_id": "ses_2bfa66169ffeNNn3V50uNK4ZYY",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-30T20:20:29.484Z"
+    },
+    "todo:19": {
+      "task_key": "todo:19",
+      "task_label": "19",
+      "task_title": "Structure Reviewer",
+      "session_id": "ses_2bf131ddeffeqJ0G9kA1o5pkUo",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-03-30T22:47:17.982Z"
+    },
+    "todo:27": {
+      "task_key": "todo:27",
+      "task_label": "27",
+      "task_title": "Review Service + Aggregation",
+      "session_id": "ses_2bbb8fdf9ffeY7XrhBnuwj5zXM",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T14:26:45.081Z"
+    },
+    "todo:29": {
+      "task_key": "todo:29",
+      "task_label": "29",
+      "task_title": "Revision Loop in LangGraph",
+      "session_id": "ses_2bbb222b5ffeLIyYnZb7cgHA30",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T14:37:09.475Z"
+    },
+    "todo:30": {
+      "task_key": "todo:30",
+      "task_label": "30",
+      "task_title": "Final Review Approval Gate",
+      "session_id": "ses_2bba9cdfcffexret7zpzocv2s9",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T14:45:14.494Z"
+    },
+    "todo:31": {
+      "task_key": "todo:31",
+      "task_label": "31",
+      "task_title": "App Shell & Layout",
+      "session_id": "ses_2bba19a36ffeuDEjnvwX3ygemh",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T15:03:17.078Z"
+    },
+    "todo:32": {
+      "task_key": "todo:32",
+      "task_label": "32",
+      "task_title": "Task Home Page (任务列表)",
+      "session_id": "ses_2bb8c7519ffe4J60gaaG3O68WJ",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T15:16:30.146Z"
+    },
+    "todo:33": {
+      "task_key": "todo:33",
+      "task_label": "33",
+      "task_title": "Workbench — Left Panel (Outline & Structure)",
+      "session_id": "ses_2bb7f20c3ffe27yjVWQCOOzXLy",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-03-31T15:32:40.816Z"
+    },
+    "todo:34": {
+      "task_key": "todo:34",
+      "task_label": "34",
+      "task_title": "Workbench — Center Panel (Content Editor)",
+      "session_id": "ses_2bb778b26ffeeVRMSqTE6o6C0o",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-03-31T15:46:23.537Z"
+    },
+    "todo:36": {
+      "task_key": "todo:36",
+      "task_label": "36",
+      "task_title": "Review Dashboard Page (审核面板)",
+      "session_id": "ses_2bb6939dfffeq45w7xeCArQvaj",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-03-31T15:55:40.913Z"
+    },
+    "todo:37": {
+      "task_key": "todo:37",
+      "task_label": "37",
+      "task_title": "Version Management Service",
+      "session_id": "ses_2bb61120fffeF0Jwh0FdSgzYGJ",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T16:02:51.085Z"
+    },
+    "todo:39": {
+      "task_key": "todo:39",
+      "task_label": "39",
+      "task_title": "Retrieval Skill (RAG Integration)",
+      "session_id": "ses_2bb50f140ffe6Kv3SuaDTYebMX",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T16:25:14.855Z"
+    },
+    "todo:40": {
+      "task_key": "todo:40",
+      "task_label": "40",
+      "task_title": "Template Service",
+      "session_id": "ses_2bb3bc517ffegLueQY9hXiRDbd",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T16:53:05.150Z"
+    },
+    "todo:41": {
+      "task_key": "todo:41",
+      "task_label": "41",
+      "task_title": "DOCX Export Service",
+      "session_id": "ses_2bb29fafcffesS0o25zx1g6J8m",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T17:06:26.695Z"
+    },
+    "todo:43": {
+      "task_key": "todo:43",
+      "task_label": "43",
+      "task_title": "Export UI",
+      "session_id": "ses_2bb1ee4d2ffeUpWTqTef08y93V",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-03-31T17:15:48.393Z"
+    },
+    "todo:46": {
+      "task_key": "todo:46",
+      "task_label": "46",
+      "task_title": "Seed Data & Demo Flow",
+      "session_id": "ses_2bb1296cfffeg0g8XHUOuE3aS7",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-03-31T17:39:07.805Z"
+    },
+    "todo:49": {
+      "task_key": "todo:49",
+      "task_label": "49",
+      "task_title": "Quality Dashboard Page",
+      "session_id": "ses_2ba8257aeffenqyznya4XOuzgg",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-03-31T20:05:35.252Z"
+    },
+    "todo:51": {
+      "task_key": "todo:51",
+      "task_label": "51",
+      "task_title": "End-to-End Smoke Test",
+      "session_id": "ses_2ba7b45fdffe4610XDOA91eSvT",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T20:18:03.526Z"
+    }
+  }
+}

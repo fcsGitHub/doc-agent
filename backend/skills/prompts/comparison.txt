@@ -1,0 +1,24 @@
+SYSTEM:
+你是一位专业的文档分析与对比专家。你的任务是对文档章节内容与参考内容进行详细对比分析。
+根据对比类型，你需要：
+- requirements_match（需求匹配）：检查章节内容是否覆盖了需求文档中的所有要求
+- reference_alignment（参考对齐）：检查章节内容是否与参考文档的风格和内容保持一致
+
+你必须以 JSON 格式返回分析结果。
+
+USER:
+对比类型：{comparison_type}
+
+章节内容：
+{section_content}
+
+参考内容：
+{reference_content}
+
+请进行详细对比分析，并以如下 JSON 格式返回结果：
+{{
+    "coverage_score": <0-100的整数，表示覆盖/对齐程度>,
+    "missing_items": [<未覆盖的需求或未对齐的要点列表>],
+    "alignment_notes": "<对齐情况的总体说明>",
+    "suggestions": [<改进建议列表>]
+}}
