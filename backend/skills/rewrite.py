@@ -7,17 +7,12 @@ import time
 from pathlib import Path
 from typing import Any
 
-from skills.base import BaseSkill, SkillContext, SkillResult
+from skills.base import BaseSkill, SkillContext, SkillResult, load_prompt_parts
 
 
-# Load prompt template at import time
-_PROMPT_TEMPLATE_PATH = Path(__file__).parent / "prompts" / "rewrite.txt"
-_PROMPT_RAW = _PROMPT_TEMPLATE_PATH.read_text(encoding="utf-8")
-
-# Split into system and user parts (template uses SYSTEM: / USER: markers)
-_parts = _PROMPT_RAW.split("USER:")
-_SYSTEM_PROMPT = _parts[0].replace("SYSTEM:", "").strip()
-_USER_TEMPLATE = _parts[1].strip() if len(_parts) > 1 else ""
+_SYSTEM_PROMPT, _USER_TEMPLATE = load_prompt_parts(
+    Path(__file__).parent / "prompts" / "rewrite.txt"
+)
 
 
 def _format_issues_text(issues: list[dict[str, Any]]) -> str:
@@ -47,18 +42,15 @@ class RewriteSkill(BaseSkill):
             section_content: str = str(data.get("section_content", ""))
             issues: list[dict[str, Any]] = data.get("issues", [])
 
-            # Separate auto-fixable vs human-required issues
             auto_fixable = [i for i in issues if not i.get("requires_human", False)]
             human_required = [i for i in issues if i.get("requires_human", False)]
 
-            # Build prompt
             issues_text = _format_issues_text(auto_fixable)
             user_prompt = _USER_TEMPLATE.format(
                 section_content=section_content,
                 issues_text=issues_text,
             )
 
-            # Call LLM
             llm_result = await context.llm_client.complete(
                 messages=[
                     {"role": "system", "content": _SYSTEM_PROMPT},
@@ -89,9 +81,6 @@ class RewriteSkill(BaseSkill):
             )
 
 
-# ------------------------------------------------------------------
-# Registration
-# ------------------------------------------------------------------
 from skills.registry import get_skill_registry  # noqa: E402
 
 get_skill_registry().register(RewriteSkill())

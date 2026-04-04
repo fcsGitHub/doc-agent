@@ -7,17 +7,12 @@ import time
 from pathlib import Path
 from typing import Any
 
-from skills.base import BaseSkill, SkillContext, SkillResult
+from skills.base import BaseSkill, SkillContext, SkillResult, load_prompt_parts
 
 
-# Load prompt template at import time
-_PROMPT_TEMPLATE_PATH = Path(__file__).parent / "prompts" / "comparison.txt"
-_PROMPT_RAW = _PROMPT_TEMPLATE_PATH.read_text(encoding="utf-8")
-
-# Split into system and user parts (template uses SYSTEM: / USER: markers)
-_parts = _PROMPT_RAW.split("USER:")
-_SYSTEM_PROMPT = _parts[0].replace("SYSTEM:", "").strip()
-_USER_TEMPLATE = _parts[1].strip() if len(_parts) > 1 else ""
+_SYSTEM_PROMPT, _USER_TEMPLATE = load_prompt_parts(
+    Path(__file__).parent / "prompts" / "comparison.txt"
+)
 
 
 class ComparisonSkill(BaseSkill):
@@ -50,14 +45,12 @@ class ComparisonSkill(BaseSkill):
                 data.get("comparison_type", "requirements_match")
             )
 
-            # Build prompt from template
             user_prompt = _USER_TEMPLATE.format(
                 section_content=section_content,
                 reference_content=reference_content,
                 comparison_type=comparison_type,
             )
 
-            # Call LLM with JSON output mode
             result: dict[str, Any] = await context.llm_client.complete_json(
                 messages=[
                     {"role": "system", "content": _SYSTEM_PROMPT},
@@ -65,7 +58,6 @@ class ComparisonSkill(BaseSkill):
                 ]
             )
 
-            # Normalise output fields with safe defaults
             output: dict[str, Any] = {
                 "coverage_score": int(result.get("coverage_score", 0)),
                 "missing_items": list(result.get("missing_items", [])),
@@ -87,9 +79,6 @@ class ComparisonSkill(BaseSkill):
             )
 
 
-# ------------------------------------------------------------------
-# Registration
-# ------------------------------------------------------------------
 from skills.registry import get_skill_registry  # noqa: E402
 
 get_skill_registry().register(ComparisonSkill())

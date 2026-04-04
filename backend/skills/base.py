@@ -5,9 +5,23 @@ from __future__ import annotations
 import asyncio
 import time
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel
+
+
+def load_prompt_parts(prompt_file: Path) -> tuple[str, str]:
+    """Load a prompt template file and split it into (system, user) parts.
+
+    The file must use ``SYSTEM:`` and ``USER:`` as section markers.
+    Returns (system_prompt, user_template) strings.
+    """
+    raw = prompt_file.read_text(encoding="utf-8")
+    parts = raw.split("USER:")
+    system = parts[0].replace("SYSTEM:", "").strip()
+    user = parts[1].strip() if len(parts) > 1 else ""
+    return system, user
 
 
 class RetryPolicy(BaseModel):

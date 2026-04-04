@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import uuid
 from collections import defaultdict
 
@@ -63,34 +64,40 @@ class ReviewService:
             input_data={"sections": sections, "config": {}},
         )
 
-        reviewer_results: list[ReviewResult] = []
         reviewers = self._build_reviewers()
 
-        for idx, reviewer in enumerate(reviewers, start=1):
-            skill_result: SkillResult = await reviewer.execute(context)
+        raw_results: list[SkillResult | BaseException] = list(
+            await asyncio.gather(
+                *[reviewer.execute(context) for reviewer in reviewers],
+                return_exceptions=True,
+            )
+        )
+
+        reviewer_results: list[ReviewResult] = []
+        for reviewer, raw in zip(reviewers, raw_results):
+            if isinstance(raw, BaseException):
+                raise RuntimeError(
+                    f"Reviewer '{reviewer.reviewer_name}' raised: {raw}"
+                ) from raw
+            skill_result: SkillResult = raw
             if not skill_result.success:
                 raise RuntimeError(
                     skill_result.error
                     or f"Reviewer '{reviewer.reviewer_name}' execution failed"
                 )
+            reviewer_results.append(ReviewResult(**skill_result.output))
 
-            reviewer_result = ReviewResult(**skill_result.output)
-            reviewer_results.append(reviewer_result)
-
-            await progress_svc.publish(
-                task_id,
-                ProgressEvent(
-                    event_type=f"reviewer_{idx}_complete",
-                    task_id=task_id,
-                    phase="review",
-                    progress_pct=int((idx / len(reviewers)) * 90),
-                    message=f"Reviewer {idx}/8 complete",
-                    data={
-                        "reviewer": reviewer.reviewer_name,
-                        "status": reviewer_result.status,
-                    },
-                ),
-            )
+        await progress_svc.publish(
+            task_id,
+            ProgressEvent(
+                event_type="all_reviewers_complete",
+                task_id=task_id,
+                phase="review",
+                progress_pct=90,
+                message="All reviewers complete",
+                data={"reviewer_count": len(reviewers)},
+            ),
+        )
 
         aggregated = AggregatedReview.from_results(
             task_id=task_id,

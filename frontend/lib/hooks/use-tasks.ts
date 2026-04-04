@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, API_BASE } from "@/lib/api";
 import type { Task } from "@/lib/types";
 
 export function useTasks() {
@@ -31,8 +31,6 @@ export function useCreateTask() {
       if (file) {
         const fd = new FormData();
         fd.append("file", file);
-        const API_BASE =
-          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
         await fetch(`${API_BASE}/api/v1/tasks/${task.id}/documents/upload`, {
           method: "POST",
           body: fd,

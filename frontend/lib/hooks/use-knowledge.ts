@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, API_BASE } from "@/lib/api";
 
 export interface KnowledgeDocument {
   id: string;
@@ -47,7 +47,6 @@ export function useIngestDocument() {
     mutationFn: async (file: File) => {
       const fd = new FormData();
       fd.append("file", file);
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
       const res = await fetch(`${API_BASE}/api/v1/knowledge/ingest`, {
         method: "POST",
         body: fd,

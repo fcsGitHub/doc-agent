@@ -591,6 +591,9 @@ def upgrade() -> None:
         "ix_review_issues_review_result_id", "review_issues", ["review_result_id"]
     )
     op.create_index("ix_skill_executions_task_id", "skill_executions", ["task_id"])
+    op.create_index(
+        "ix_skill_executions_task_skill", "skill_executions", ["task_id", "skill_name"]
+    )
     op.create_index("ix_audit_events_task_id", "audit_events", ["task_id"])
     op.create_index(
         "ix_audit_events_entity", "audit_events", ["entity_type", "entity_id"]
@@ -601,18 +604,23 @@ def upgrade() -> None:
     op.create_index("ix_source_documents_task_id", "source_documents", ["task_id"])
     op.create_index("ix_parsed_documents_task_id", "parsed_documents", ["task_id"])
     op.create_index("ix_review_rounds_task_id", "review_rounds", ["task_id"])
+    op.create_index(
+        "ix_review_rounds_task_round", "review_rounds", ["task_id", "round_number"]
+    )
     op.create_index("ix_approvals_task_id", "approvals", ["task_id"])
 
 
 def downgrade() -> None:
     # ---------- Drop indexes ----------
     op.drop_index("ix_approvals_task_id")
+    op.drop_index("ix_review_rounds_task_round")
     op.drop_index("ix_review_rounds_task_id")
     op.drop_index("ix_parsed_documents_task_id")
     op.drop_index("ix_source_documents_task_id")
     op.drop_index("ix_knowledge_chunks_source")
     op.drop_index("ix_audit_events_entity")
     op.drop_index("ix_audit_events_task_id")
+    op.drop_index("ix_skill_executions_task_skill")
     op.drop_index("ix_skill_executions_task_id")
     op.drop_index("ix_review_issues_review_result_id")
     op.drop_index("ix_review_results_task_id")

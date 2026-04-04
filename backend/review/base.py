@@ -9,16 +9,14 @@ from typing import TYPE_CHECKING, Any, cast
 from review.schemas import ReviewConfig, ReviewIssue, ReviewResult, SectionData
 
 
-# Import BaseSkill carefully — it may be in skills/base.py
 if TYPE_CHECKING:
     from skills.base import BaseSkill, SkillContext, SkillResult
 else:
     try:
         from skills.base import BaseSkill, SkillContext, SkillResult
     except ImportError:
-        # Fallback if skills not yet available (during parallel task execution)
         class BaseSkill(ABC):
-            """Fallback BaseSkill for parallel task execution."""
+            """Fallback BaseSkill."""
 
         SkillContext = Any
         SkillResult = Any
