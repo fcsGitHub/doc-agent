@@ -12,6 +12,7 @@ from models.interaction import UserComment
 from models.export import ExportArtifact
 from models.template import DocumentTemplate
 from models.audit import AuditEntry
+from models.llm_config import LLMConfig
 
 __all__ = [
     "Base",
@@ -34,4 +35,5 @@ __all__ = [
     "ExportArtifact",
     "DocumentTemplate",
     "AuditEntry",
+    "LLMConfig",
 ]

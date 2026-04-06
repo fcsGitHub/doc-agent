@@ -16,7 +16,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "llm_configs",
-        sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
+        sa.Column("id", postgresql.UUID(as_uuid=True), server_default=sa.text("gen_random_uuid()"), primary_key=True),
         sa.Column("name", sa.String(200), nullable=False),
         sa.Column("api_key", sa.String(500), nullable=False, server_default=""),
         sa.Column("api_base", sa.String(500), nullable=False, server_default=""),
@@ -24,8 +24,8 @@ def upgrade() -> None:
         sa.Column("review_model", sa.String(200), nullable=False),
         sa.Column("embed_model", sa.String(200), nullable=False),
         sa.Column("is_active", sa.Boolean, nullable=False, server_default="false"),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
+        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
     )
     op.create_index("ix_llm_configs_is_active", "llm_configs", ["is_active"])
 
