@@ -125,3 +125,20 @@ async def test_complete_json_raises_on_invalid_json():
                 await client.complete_json(
                     messages=[{"role": "user", "content": "Return JSON"}]
                 )
+
+
+from core.llm import update_active_config, get_llm_client
+
+def test_update_active_config_resets_singleton():
+    update_active_config({
+        "api_key": "test-key",
+        "api_base": "http://localhost:11434",
+        "default_model": "ollama/llama3",
+        "review_model": "ollama/llama3",
+        "embed_model": "ollama/nomic-embed-text",
+    })
+    client = get_llm_client()
+    assert client.default_model == "ollama/llama3"
+    assert client.api_base == "http://localhost:11434"
+    # Reset to avoid polluting other tests
+    update_active_config({})

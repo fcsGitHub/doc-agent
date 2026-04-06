@@ -130,10 +130,58 @@ class LLMClient:
 # Module-level singleton — used by skills
 _default_client: LLMClient | None = None
 
+# Module-level config override (set by LLMConfigService.activate())
+_active_config: dict = {}
+
+
+def update_active_config(config: dict) -> None:
+    """Update the active LLM config cache and reset the singleton client.
+
+    Called by LLMConfigService when a config is activated in the DB.
+    config keys: api_key, api_base, default_model, review_model, embed_model.
+    Pass empty dict {} to clear the override and fall back to env vars.
+    """
+    global _active_config, _default_client
+    _active_config = config
+    _default_client = None  # force rebuild on next get_llm_client() call
+
 
 def get_llm_client() -> LLMClient:
-    """Get or create module-level LLMClient instance."""
+    """Get or create module-level LLMClient instance.
+
+    Uses _active_config if set (from DB), otherwise falls back to settings (env vars).
+    """
     global _default_client
     if _default_client is None:
-        _default_client = LLMClient()
+        if _active_config:
+            _default_client = LLMClient(
+                api_key=_active_config.get("api_key") or settings.llm_api_key,
+                api_base=_active_config.get("api_base") or settings.llm_api_base,
+                default_model=_active_config.get("default_model") or settings.llm_default_model,
+                review_model=_active_config.get("review_model") or settings.llm_review_model,
+            )
+        else:
+            _default_client = LLMClient()
     return _default_client
+
+
+async def load_active_config_from_db(db: "AsyncSession") -> None:  # type: ignore[name-defined]
+    """Load the active LLM config from DB on app startup.
+
+    Safe to call even if no active config exists — falls back to env vars.
+    """
+    from sqlalchemy import select
+    from models.llm_config import LLMConfig
+
+    result = await db.execute(
+        select(LLMConfig).where(LLMConfig.is_active.is_(True)).limit(1)
+    )
+    row = result.scalar_one_or_none()
+    if row is not None:
+        update_active_config({
+            "api_key": row.api_key,
+            "api_base": row.api_base,
+            "default_model": row.default_model,
+            "review_model": row.review_model,
+            "embed_model": row.embed_model,
+        })
