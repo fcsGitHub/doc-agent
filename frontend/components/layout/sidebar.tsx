@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { label: "任务列表", href: "/" },
   { label: "工作台", href: "/tasks" },
   { label: "知识库", href: "/knowledge" },
+  { label: "设置", href: "/settings" },
 ];
 
 function isActive(pathname: string, href: string): boolean {

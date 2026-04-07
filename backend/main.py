@@ -10,7 +10,7 @@ from config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Application lifespan: seed built-in templates on startup."""
+    """Application lifespan: seed built-in templates and load LLM config on startup."""
     # Seed built-in templates (idempotent)
     try:
         from core.database import async_session_maker
@@ -26,6 +26,16 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     except Exception as exc:
         # Don't block startup if seeding fails (e.g. DB not ready yet)
         print(f"[seed] Template seeding skipped: {exc}")
+
+    try:
+        from core.database import async_session_maker
+        from core.llm import load_active_config_from_db
+
+        async with async_session_maker() as db:
+            await load_active_config_from_db(db)
+            print("[llm-config] Active LLM config loaded from DB.")
+    except Exception as exc:
+        print(f"[llm-config] Failed to load active config (using env vars): {exc}")
 
     yield
 
