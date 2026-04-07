@@ -14,6 +14,7 @@ from models.template import DocumentTemplate
 from models.audit import AuditEntry
 from models.llm_config import LLMConfig
 from models.chat import ChatSession, ChatMessage
+from models.wiki import WikiRawSource, WikiArticle
 
 __all__ = [
     "Base",
@@ -39,4 +40,6 @@ __all__ = [
     "LLMConfig",
     "ChatSession",
     "ChatMessage",
+    "WikiRawSource",
+    "WikiArticle",
 ]
