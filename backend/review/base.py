@@ -65,6 +65,7 @@ class BaseReviewer(BaseSkill, ABC):
         sections: list[SectionData],
         criteria: str,
         rules: list[dict[str, Any]] | None = None,
+        extra_criteria: list[str] | None = None,
     ) -> list[dict[str, str]]:
         """Build LLM messages for review. Single prompt → structured output (G9)."""
         sections_text = "\n\n".join(
@@ -76,8 +77,15 @@ class BaseReviewer(BaseSkill, ABC):
                 f"- {r.get('name', '')}: {r.get('description', '')}" for r in rules
             )
 
+        extra_text = ""
+        if extra_criteria:
+            extra_text = "\n\nAdditional review criteria specified by user:\n" + "\n".join(
+                f"- {c}" for c in extra_criteria
+            )
+
         system_prompt = (
-            f"You are a specialized document reviewer. Your review criteria: {criteria}\n"
+            f"You are a specialized document reviewer. Your review criteria: {criteria}"
+            f"{extra_text}\n"
             "Return a JSON object with this exact structure:\n"
             '{"status": "pass"|"fail"|"warning", "score": 0-100, "summary": "...", '
             '"issues": [{"severity": "critical"|"major"|"minor"|"info", "category": "...", '

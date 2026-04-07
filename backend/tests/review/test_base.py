@@ -80,6 +80,22 @@ def test_parse_response_valid_json():
     assert result.issues[0].severity == "critical"
 
 
+def test_build_prompt_with_extra_criteria():
+    """_build_prompt() injects extra_criteria into system prompt."""
+    reviewer = ConcreteReviewer()
+    sections = [
+        SectionData(
+            section_id="s1",
+            title="Intro",
+            content="Hello",
+            order_index=0,
+        )
+    ]
+    messages = reviewer._build_prompt(sections, "base criteria", extra_criteria=["Follow ISO 9001"])
+    system = messages[0]["content"]
+    assert "ISO 9001" in system
+
+
 def test_parse_response_invalid_json():
     """_parse_response() returns fail result gracefully on invalid JSON."""
     reviewer = ConcreteReviewer()

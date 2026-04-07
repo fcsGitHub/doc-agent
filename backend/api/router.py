@@ -14,6 +14,7 @@ from api.review import router as review_router
 from api.sse import router as sse_router
 from api.tasks import router as tasks_router
 from api.template import router as template_router
+from api.chat import router as chat_router
 from api.settings import router as settings_router
 from api.version import router as version_router
 
@@ -30,4 +31,5 @@ router.include_router(version_router)
 router.include_router(export_router)
 router.include_router(audit_router)
 router.include_router(comparison_router)
+router.include_router(chat_router)
 router.include_router(settings_router)
