@@ -5,6 +5,7 @@ import { OutlinePanel } from "@/components/workbench/outline-panel";
 import { ContentPanel } from "@/components/workbench/content-panel";
 import { ReviewPanel } from "@/components/workbench/review-panel";
 import { useTask, useStartTask } from "@/lib/hooks/use-document";
+import { ChatSidebar } from "@/components/chat/chat-sidebar";
 
 interface WorkbenchPageProps {
   params: {
@@ -63,6 +64,7 @@ export default function WorkbenchPage({ params }: WorkbenchPageProps) {
           <ReviewPanel taskId={taskId} />
         </div>
       </main>
+      <ChatSidebar taskId={taskId} />
     </div>
   );
 }
