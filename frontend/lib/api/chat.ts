@@ -1,4 +1,5 @@
 import { apiFetch, API_BASE } from "@/lib/api";
+import { parseSSEStream } from "@/lib/api/sse-stream";
 
 export interface ChatSession {
   id: string;
@@ -43,23 +44,7 @@ export const chatApi = {
       body: JSON.stringify({ content }),
     });
     if (!res.ok) throw new Error(`Chat error ${res.status}`);
-    const reader = res.body!.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      buffer = lines.pop() ?? "";
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const payload = line.slice(6).trim();
-          if (payload === "[DONE]") { onDone(); return; }
-          try { onChunk(JSON.parse(payload)); } catch { /* ignore malformed */ }
-        }
-      }
-    }
+    await parseSSEStream(res, (data) => onChunk(data as Parameters<typeof onChunk>[0]));
     onDone();
   },
 };

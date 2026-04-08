@@ -1,4 +1,5 @@
 import { apiFetch, API_BASE } from "@/lib/api";
+import { parseSSEStream } from "@/lib/api/sse-stream";
 
 export interface WikiSource {
   id: string;
@@ -68,21 +69,7 @@ export const wikiApi = {
   compile: async (onEvent: (event: Record<string, unknown>) => void): Promise<void> => {
     const res = await fetch(`${API_BASE}/api/v1/wiki/compile`, { method: "POST" });
     if (!res.ok) throw new Error(`Compile failed: ${res.status}`);
-    const reader = res.body!.getReader();
-    const decoder = new TextDecoder();
-    let buf = "";
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      const lines = buf.split("\n");
-      buf = lines.pop() ?? "";
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          try { onEvent(JSON.parse(line.slice(6))); } catch { /* ignore */ }
-        }
-      }
-    }
+    await parseSSEStream(res, (data) => onEvent(data as Record<string, unknown>));
   },
 
   query: (question: string, category?: string) =>

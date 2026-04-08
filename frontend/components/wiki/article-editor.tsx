@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { WikiArticle } from "@/lib/api/wiki";
 import { useUpdateWikiArticle } from "@/lib/hooks/use-wiki";
+import { CATEGORY_LABELS } from "@/lib/wiki-constants";
 
 interface Props {
   article: WikiArticle;
@@ -37,10 +38,9 @@ export function ArticleEditor({ article, onDone }: Props) {
           onChange={(e) => setCategory(e.target.value)}
           className="rounded border border-gray-300 px-2 py-2 text-sm focus:outline-none"
         >
-          <option value="standards">行业规范</option>
-          <option value="terms">术语</option>
-          <option value="cases">历史案例</option>
-          <option value="general">通用</option>
+          {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>{label}</option>
+          ))}
         </select>
       </div>
       <input

@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from typing import Sequence
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.wiki import WikiArticle, WikiRawSource
@@ -89,11 +89,9 @@ class WikiService:
         else:
             article.content = content
             article.summary = summary
-            existing_sources = list(article.source_doc_ids or [])
-            for sid in source_doc_ids:
-                if sid not in existing_sources:
-                    existing_sources.append(sid)
-            article.source_doc_ids = existing_sources
+            existing_sources = set(article.source_doc_ids or [])
+            existing_sources.update(source_doc_ids)
+            article.source_doc_ids = list(existing_sources)
             if backlinks is not None:
                 article.backlinks = backlinks
         await db.commit()
@@ -135,10 +133,12 @@ class WikiService:
     async def update_health_score(
         self, db: AsyncSession, article_id: str, score: float
     ) -> None:
-        article = await self.get_article(db, article_id)
-        if article:
-            article.health_score = score
-            await db.commit()
+        await db.execute(
+            update(WikiArticle)
+            .where(WikiArticle.id == uuid.UUID(article_id))
+            .values(health_score=score)
+        )
+        await db.commit()
 
     async def list_categories(self, db: AsyncSession) -> list[str]:
         """Return distinct category names sorted alphabetically."""

@@ -88,14 +88,11 @@ async def send_message(
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    # Persist user message
     await _service.add_message(db, session_id=session_id, role="user", content=body.content)
 
-    # Load message history (exclude the message just added)
     history_msgs = await _service.list_messages(db, session_id)
     history = [{"role": m.role, "content": m.content} for m in history_msgs[:-1]]
 
-    # Load sections for task context
     sections_result = await db.execute(
         select(Section).where(Section.task_id == session.task_id).order_by(Section.order_index)
     )

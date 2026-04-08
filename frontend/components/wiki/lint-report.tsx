@@ -1,19 +1,13 @@
 "use client";
 
 import { WikiLintReport as LintData } from "@/lib/api/wiki";
+import { ISSUE_TYPE_LABELS } from "@/lib/wiki-constants";
 
 interface Props {
   report: LintData | null;
   onRun: () => void;
   isRunning: boolean;
 }
-
-const ISSUE_TYPE_LABEL: Record<string, string> = {
-  contradiction: "矛盾",
-  orphan: "孤立文章",
-  missing_reference: "引用缺失",
-  low_quality: "质量偏低",
-};
 
 export function LintReport({ report, onRun, isRunning }: Props) {
   return (
@@ -39,7 +33,7 @@ export function LintReport({ report, onRun, isRunning }: Props) {
             <div key={i} className="rounded border border-yellow-200 bg-yellow-50 p-3 text-sm">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-medium text-yellow-800">
-                  {ISSUE_TYPE_LABEL[issue.type] ?? issue.type}
+                  {ISSUE_TYPE_LABELS[issue.type] ?? issue.type}
                 </span>
                 {issue.article_title && (
                   <span className="text-gray-600">— {issue.article_title}</span>

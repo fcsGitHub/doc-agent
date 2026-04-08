@@ -1,19 +1,14 @@
 "use client";
 
+import { useMemo } from "react";
 import { useWikiArticles } from "@/lib/hooks/use-wiki";
 import { WikiArticle } from "@/lib/api/wiki";
+import { CATEGORY_LABELS } from "@/lib/wiki-constants";
 
 interface Props {
   selectedId: string | null;
   onSelect: (article: WikiArticle) => void;
 }
-
-const CATEGORY_LABELS: Record<string, string> = {
-  standards: "行业规范",
-  terms: "术语",
-  cases: "历史案例",
-  general: "通用",
-};
 
 export function ArticleTree({ selectedId, onSelect }: Props) {
   const { data: articles, isLoading } = useWikiArticles();
@@ -21,12 +16,15 @@ export function ArticleTree({ selectedId, onSelect }: Props) {
   if (isLoading) return <div className="p-4 text-sm text-gray-400">加载中...</div>;
   if (!articles?.length) return <div className="p-4 text-sm text-gray-400">暂无文章</div>;
 
-  const grouped = articles.reduce<Record<string, WikiArticle[]>>((acc, a) => {
-    const cat = a.category || "general";
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(a);
-    return acc;
-  }, {});
+  const grouped = useMemo(
+    () => articles.reduce<Record<string, WikiArticle[]>>((acc, a) => {
+      const cat = a.category || "general";
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(a);
+      return acc;
+    }, {}),
+    [articles],
+  );
 
   return (
     <nav className="space-y-4 p-3">
